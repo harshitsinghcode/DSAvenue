@@ -16,7 +16,7 @@ The repository is organized according to the following map:
 reasonml
 Copy
 Data Structures
-# ├── Stack
+  ├── Stack
 # │   ├── Stack_Array_Implementation.cpp
 # │   ├── Stack_Linked_List_Implementation.cpp
 # │   ├── Stack_Using_Queue.cpp
