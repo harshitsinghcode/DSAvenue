@@ -1,0 +1,121 @@
+## Overall Operations for _SLL
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+    
+    public:
+    int data;
+    Node* next;
+    
+    Node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+    
+    //destructor
+    ~Node(){
+        
+        int value = this->data;
+        //memory free
+        if(this->next != NULL){
+            delete next;
+            this->next=NULL;
+            
+        }
+        
+        cout<<"memory is free for node with data"<<value<<endl;
+    }
+};
+
+void print(Node* &head){
+    Node* temp=head;
+    while(temp!=0){
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+    cout<<endl;
+}
+
+void insertAtHead(Node* &head, int d){
+    
+    
+    
+    Node* temp=new Node(d);
+    temp->next=head;
+    head=temp;
+}
+
+void insertAtTail(Node* &tail, int d){
+    Node* temp=new Node(d);
+    tail->next=temp;
+    tail=temp;
+}
+
+void insertAtsp(Node* &head, int pos, int d){
+    
+    if(pos==1){
+        insertAtHead(head, d);
+        return;
+    }
+    Node* tobeins=new Node(d);
+    Node* temp=head;
+    
+    int ct=0;
+    while(ct<pos-1){
+        temp=temp->next;
+        ct++;
+    }
+    tobeins->next=temp->next;
+    temp->next=tobeins;
+}
+
+void deleteNode(int pos, Node* &head){
+    //deleting first or start node
+    if(pos==1){
+        Node* temp=head;
+        head=head->next;
+        //memory free start node
+        temp->next=NULL;
+        delete temp;
+        
+    }
+    //deleting any middle or last node
+    else{
+        
+        Node* curr=head;
+        Node* prev=NULL;
+        
+        int ct=1;
+        while(ct<=pos){
+            prev = curr;
+            curr=curr->next;
+            ct++;
+            
+        }
+        prev->next=curr->next;
+        curr->next=NULL;
+        delete curr;
+        
+        
+    }
+}
+int main(){
+    
+    Node * node1=new Node(10);
+    
+    Node* head=node1;
+    Node* tail=node1;
+    
+    insertAtHead(head, 12);
+    insertAtTail(tail, 89);
+    insertAtsp(head, 1, 45);
+    insertAtTail(tail, 98);
+    print(head);
+
+    deleteNode(3, head);
+    print(head);
+    
+    return 0;
+}
