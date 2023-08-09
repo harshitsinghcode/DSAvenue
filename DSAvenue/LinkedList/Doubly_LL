@@ -1,0 +1,152 @@
+## Overal Operations included for Doubly_LL
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+    
+    public:
+    int data;
+    Node* prev;
+    Node* next;
+    
+    Node(int data){
+        this->data=data;
+        this->prev=NULL;
+        this->next=NULL;
+    }
+    ~Node(){
+        int val=this->data;
+        if(next!=NULL){
+            delete next; 
+            next=NULL;
+            
+        }
+        cout<<"memeory is free! ";
+    }
+};
+
+void deleteNode(int posn, Node* &head){
+    
+    //deleting first or start node
+    if(posn == 1){
+        Node* temp=head;
+        temp->next->prev=NULL;
+        
+        head=head->next;
+        temp->next=NULL;
+        delete temp;
+        
+    }
+    
+    else{
+        //deleting any middle or the last node
+        Node* curr=head;
+        Node* prev=NULL;
+        
+        int ct=1;
+        while(ct<posn){
+            prev=curr;
+            curr=curr->next;
+            ct++;
+            
+        }
+        
+        curr->prev=NULL;
+        prev->next = curr->next;
+        curr->next=NULL;
+        delete curr;
+    }
+}
+void print(Node* &head){
+    Node* temp=head;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+    cout<<endl;
+}
+//gives the length of the linked list
+int getlength(Node* &head){
+    int ct=0;
+    Node* temp=head;
+    while(temp!= NULL){
+        temp=temp->next;
+        ct++;
+
+    }
+    return ct;
+}
+
+void insertAtHead(Node* &head, int d){
+    //empty list
+    if(head==NULL){
+        Node* temp =new Node(d);
+        head=temp;
+    }
+    else{
+    Node* temp=new Node(d);
+    temp->next=head;
+    head->prev=temp;
+    head=temp;
+    }
+}
+
+void insertAtTail(Node* &tail, int d){
+    Node* temp=new Node(d);
+    
+      if(tail==NULL){
+        Node* temp =new Node(d);
+        tail=temp;
+    }
+    
+    tail->next=temp;
+    // temp->prev=tail;
+    temp->next=NULL;
+    tail=temp;
+    
+}
+
+void insertAtposn(Node* &tail,Node* &head, int posn, int d){
+    
+    //insert at the start
+    if(posn==1){
+        insertAtHead(head, d);
+        return ;
+    }
+    Node* tobeins=new Node(d);
+    Node* temp=head;
+    // Node* temp=tail;
+    int ct=1;
+    while(ct<posn-1){
+        temp=temp->next;
+        ct++;
+    }
+    //inserting at the last position
+    if(temp->next==NULL){
+        insertAtTail(tail,d);
+        return ;
+    }
+    tobeins->next=temp->next;
+    temp->next->prev=tobeins;
+    temp->next=tobeins;
+    tobeins->prev=temp;
+    
+}
+int main() {
+    
+    Node *node1=new Node(10);
+    Node *head=node1;
+    Node *tail=node1;
+    print(head);
+    // cout<<getlength(head);
+    insertAtHead(head, 12);
+    print(head);
+    insertAtTail(tail, 87);
+    print(head);
+    insertAtposn(tail,head,3,56);
+    print(head);
+    deleteNode(3, head);
+    print(head);
+    return 0;
+}
